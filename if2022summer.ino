@@ -1,13 +1,34 @@
+// Pin definitions
+
+#define SENSOR A0
+#define VALVE 1
+
+// Setup block
+
 void setup() {
-   pinMode(A0, INPUT);
-   pinMode(1, OUTPUT);
-   Serial.begin(115200);
+  
+  // Declare pin modes
+  
+  pinMode(SENSOR, INPUT);
+  pinMode(VALVE, OUTPUT);
+
+  // Begin serial output
+  
+  Serial.begin(115200);
 }
 
+// Loop block
+
 void loop () {
-  Serial.println(float(analogRead(A0)));
-  digitalWrite(1, HIGH);
+
+  // Log value from flow sensor
+  
+  Serial.println(float(analogRead(SENSOR)));
+
+  // Write values to valve
+  
+  digitalWrite(VALVE, HIGH);
   delay(1000);
-  digitalWrite(1, LOW);
+  digitalWrite(VALVE, LOW);
   delay(1000);
 }
