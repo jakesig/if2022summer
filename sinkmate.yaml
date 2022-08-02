@@ -1,0 +1,33 @@
+esphome:
+  name: sinkmate
+
+esp8266:
+  board: nodemcuv2
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  password: "sinkmate"
+
+ota:
+  password: "sinkmate"
+
+wifi:
+  ssid: "Starlink_legacy"
+  password: "fredfontaine"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Sinkmate Fallback Hotspot"
+    password: "ks0R9p1oTwJk"
+
+captive_portal:
+
+switch:
+  - platform: gpio
+    pin: D4
+    name: "LED"
+    inverted: true
+    
