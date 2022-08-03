@@ -98,7 +98,7 @@ def run(cmd):
 
 # SQS Setup
 
-sqs = boto3.resource('sqs', region_name="us-east-1", aws_secret_access_key="1+gLeKyMLgpN+IL0RbzRuWt/ACHcCAWIvWDXPA5a", aws_access_key_id="AKIA37ON4KPUU4QVNZET")
+sqs = boto3.resource('sqs', region_name="us-east-1", aws_secret_access_key="", aws_access_key_id="")
 queue = sqs.get_queue_by_name(QueueName = 'dispense-queue')
 
 # Main Loop
