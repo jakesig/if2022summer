@@ -15,8 +15,8 @@ ota:
   password: "sinkmate"
 
 wifi:
-  ssid: "Starlink_legacy"
-  password: "fredfontaine"
+  ssid: ""
+  password: ""
 
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
@@ -30,4 +30,11 @@ switch:
     pin: D4
     name: "LED"
     inverted: true
+  - platform: gpio
+    pin: 14
+    name: "Valve"
     
+sensor:
+  - platform: adc
+    pin: A0
+    name: "Flow Sensor"
