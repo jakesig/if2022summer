@@ -36,18 +36,19 @@ begintime = time.time()
 
 async def _init():
     """Connect to an ESPHome device and get details."""
+    
+    print("Logging in...")
 
     # Establish connection
-    # api = aioesphomeapi.APIClient("cooper-hyperloop-brake-dyno.local", 6053, "")
     await api.connect(login=True)
     api_info['connected'] = True
 
     # Get API version of the device's firmware
-    print(api.api_version)
+    # print(api.api_version)
 
     # Show device details
     device_info = await api.device_info()
-    print(device_info)
+    print("Board connected!")
 
     # List all entities of the device
     entities = (await api.list_entities_services())[0]
@@ -69,12 +70,35 @@ def switch(cmd):
     for key, dev in state.items():
         if not dev['id'] == cmd[1]:
             continue
-        print("Setting", dev['name'], 'with key', key, "to", cmd[2] == "True" or cmd[2] == "on")
+        # print("Setting", dev['name'], 'with key', key, "to", cmd[2] == "True" or cmd[2] == "on")
         asyncio.run(api.switch_command(int(key), cmd[2] == "True" or cmd[2] == "on"))
+
+def run(cmd):
+    if cmd[0] == "list" and len(cmd) == 1:
+        print(state)
+        return
+    if cmd[0] == "set" and len(cmd) == 3:
+        switch(cmd)
+        return
+    if cmd[0] == "get" and len(cmd) == 2:
+        for key, dev in state.items():
+            if not dev['id'] == cmd[1]:
+                return
+            print(dev['value'])
+            return
+        return
+    if cmd[0] == "exit":
+        savefile.flush()
+        savefile.close()
+        exit()
+    if cmd[0] == "save":
+        savefile.flush()
+        return
+    print("INVALID COMMAND!")
 
 # SQS Setup
 
-sqs = boto3.resource('sqs', region_name="us-east-1", aws_secret_access_key="PRIVATE", aws_access_key_id="PRIVATE")
+sqs = boto3.resource('sqs', region_name="us-east-1", aws_secret_access_key="1+gLeKyMLgpN+IL0RbzRuWt/ACHcCAWIvWDXPA5a", aws_access_key_id="AKIA37ON4KPUU4QVNZET")
 queue = sqs.get_queue_by_name(QueueName = 'dispense-queue')
 
 # Main Loop
@@ -88,8 +112,9 @@ def main():
         unit = ""
         for msg in queue.receive_messages(MessageAttributeNames=['Amount', 'Unit']):
             attr = msg.message_attributes
-            amt = int(attr["Amount"]["StringValue"])*2
+            amt = float(attr["Amount"]["StringValue"])
             unit = attr["Unit"]["StringValue"]
+            print('-------------------QUEUE RECEIVE-------------------------')
             print("Amount: " + str(amt) + "\tUnit: " + unit)
             # Let the queue know that the message is processed
             msg.delete()
@@ -98,34 +123,10 @@ def main():
         while amt > 0:
             time.sleep(1)
             current = not current
-            cmd = ("set led " + str(current)).split(" ")
-            if cmd[0] == "list" and len(cmd) == 1:
-                print(state)
-                continue
-            if cmd[0] == "set" and len(cmd) == 3:
-                switch(cmd)
-                amt-=1
-                continue
-            if cmd[0] == "get" and len(cmd) == 2:
-                for key, dev in state.items():
-                    if not dev['id'] == cmd[1]:
-                        continue
-                    print(dev['value'])
-                    break
-                continue
-            if cmd[0] == "auto" and len(cmd) == 2:
-                switch(["set", "motor", "on"])
-                time.sleep(float(cmd[1]))
-                switch(["set", "brake", "on"])
-                continue
-            if cmd[0] == "exit":
-                savefile.flush()
-                savefile.close()
-                exit()
-            if cmd[0] == "save":
-                savefile.flush()
-                continue
-            print("INVALID COMMAND!")
+            cmd = ("set valve " + str(current)).split(" ")
+            run(cmd)
+            amt-=1
+            
 
 submit_async(_init())
 main()
