@@ -6,6 +6,7 @@ import asyncio
 import threading
 import time
 import boto3
+import math
 
 # BEGIN: From user4815162342 on Stack Overflow
 def _start_async():
@@ -104,28 +105,24 @@ queue = sqs.get_queue_by_name(QueueName = 'dispense-queue')
 # Main Loop
 
 def main():
+    run(("set valve "+str(True)).split(" "))
     while True:
-
+        
         # Pulls queue message
 
         amt = 0
         unit = ""
         for msg in queue.receive_messages(MessageAttributeNames=['Amount', 'Unit']):
             attr = msg.message_attributes
-            amt = float(attr["Amount"]["StringValue"])
+            amt = math.floor(float(attr["Amount"]["StringValue"])*2.25)
+            current = True
             unit = attr["Unit"]["StringValue"]
             print('-------------------QUEUE RECEIVE-------------------------')
             print("Amount: " + str(amt) + "\tUnit: " + unit)
             # Let the queue know that the message is processed
             msg.delete()
-        
-        current = False
-        while amt > 0:
-            time.sleep(1)
-            current = not current
-            cmd = ("set valve " + str(current)).split(" ")
-            run(cmd)
-            amt-=1
+            while True:
+                run("get FlowSensor".split(" "))
             
 
 submit_async(_init())

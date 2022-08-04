@@ -15,8 +15,8 @@ ota:
   password: "sinkmate"
 
 wifi:
-  ssid: ""
-  password: ""
+  ssid: "iPhone"
+  password: "benjamin"
 
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
@@ -37,4 +37,5 @@ switch:
 sensor:
   - platform: adc
     pin: A0
-    name: "Flow Sensor"
+    name: "FlowSensor"
+    update_interval: 0.2s
