@@ -9,6 +9,7 @@ import boto3
 import math
 
 # BEGIN: From user4815162342 on Stack Overflow
+
 def _start_async():
     loop = asyncio.new_event_loop()
     threading.Thread(target=loop.run_forever).start()
@@ -19,6 +20,7 @@ _loop = _start_async()
 # Submits awaitable to the event loop, but *doesn't* wait for it to
 # complete. Returns a concurrent.futures.Future which *may* be used to
 # wait for and retrieve the result (or exception, if one was raised)
+
 def submit_async(awaitable):
     return asyncio.run_coroutine_threadsafe(awaitable, _loop)
 
@@ -99,31 +101,94 @@ def run(cmd):
 
 # SQS Setup
 
-sqs = boto3.resource('sqs', region_name="us-east-1", aws_secret_access_key="", aws_access_key_id="")
+sqs = boto3.resource('sqs', region_name="us-east-1", aws_secret_access_key="1+gLeKyMLgpN+IL0RbzRuWt/ACHcCAWIvWDXPA5a", aws_access_key_id="AKIA37ON4KPUU4QVNZET")
 queue = sqs.get_queue_by_name(QueueName = 'dispense-queue')
+
+# Dictionary setup from file
+
+print("Reading file...")
+f = open("presets.txt", "r")
+entries = f.read().split(";")
+entries.pop(len(entries)-1)
+name_dict = dict()
+for arr in entries:
+    parts = arr.split(",")
+    name_dict[parts[0]] = [parts[1], parts[2]]
+print("Dictionary initialized.")
+f.close()
 
 # Main Loop
 
 def main():
-    run(("set valve "+str(True)).split(" "))
     while True:
         
-        # Pulls queue message
+        # Checks for queue message
 
-        amt = 0
-        unit = ""
-        for msg in queue.receive_messages(MessageAttributeNames=['Amount', 'Unit']):
+        for msg in queue.receive_messages(MessageAttributeNames=['Name', 'Amount', 'Unit']):
+
+            # Obtain message from queue
+
             attr = msg.message_attributes
-            amt = math.floor(float(attr["Amount"]["StringValue"])*2.25)
-            current = True
+            amt = attr["Amount"]["StringValue"]
             unit = attr["Unit"]["StringValue"]
+            name = attr["Name"]["StringValue"]
             print('-------------------QUEUE RECEIVE-------------------------')
-            print("Amount: " + str(amt) + "\tUnit: " + unit)
-            # Let the queue know that the message is processed
+            print("Body: "+msg.body+"\tName: "+name+"\tAmount: " + amt + "\tUnit: " + unit)
             msg.delete()
-            while True:
-                run("get FlowSensor".split(" "))
+
+            # Passthrough mode implementation
+
+            if msg.body == "PassOn":
+                run(("set valve "+str(True)).split(" "))
+                continue
+            elif msg.body == "PassOff":
+                run(("set valve "+str(False)).split(" "))
+                continue
+
+            # Preset implementation
+
+            elif msg.body == "Preset":
+                f = open("presets.txt", "a")
+                f.write(name+","+amt+","+unit+";")
+                name_dict[name] = [amt, unit]
+                print("Updated presets.")
+                f.close()
+                continue
             
+            # Dispensing implementation
+
+            elif msg.body == "Dispense":
+
+                # Has a preset
+
+                if name != "none":
+                    amt = name_dict[name][0]
+                    unit = name_dict[name][1]
+                    print("Dispensing using preset \"" + name+"\" with "+amt+" "+unit)
+
+                # Does not have a preset
+                
+                else:
+                    print("Dispensing using measurements")
+
+                # Unit conversion to milliliters
+
+                amt = float(amt)
+                if unit == "gallon":
+                    amt*=3785.41
+                elif unit == "quart":
+                    amt*=946.353
+                elif unit == "pint": 
+                    amt*=473.176 
+                elif unit == "fluid ounce":
+                    amt*=29.574
+                elif unit == "cup":
+                    amt*=240
+                elif unit == "liter":
+                    amt*=1000
+                unit = "milliliter"
+
+                dispense_amt = math.floor(float(amt)*2.25)
 
 submit_async(_init())
 main()
