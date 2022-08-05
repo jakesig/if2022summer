@@ -33,9 +33,23 @@ switch:
   - platform: gpio
     pin: 14
     name: "Valve"
+    on_turn_off:
+      then:
+      - pulse_meter.set_total_pulses:
+          id: flow_sensor
+          value: 0
+    on_turn_on:
+      then:
+      - pulse_meter.set_total_pulses:
+          id: flow_sensor
+          value: 0
     
 sensor:
-  - platform: adc
-    pin: A0
+  - platform: pulse_meter
+    pin: 12
     name: "FlowSensor"
-    update_interval: 0.2s
+    id: flow_sensor
+    timeout: 1.5 min
+    total:
+      name: "Total"
+      accuracy_decimals: 1

@@ -27,15 +27,14 @@ def submit_async(awaitable):
 def stop_async():
     _loop.call_soon_threadsafe(_loop.stop)
 
-state = {}
+
 api = aioesphomeapi.APIClient("sinkmate.local", 6053, "sinkmate")
 api_info = {
     'connected': False,
     'safety_ping_key': 0,
 }
 
-savefile = open('./save.csv', 'w')
-begintime = time.time()
+state = {}
 
 async def _init():
     """Connect to an ESPHome device and get details."""
@@ -90,18 +89,12 @@ def run(cmd):
             print(dev['value'])
             return
         return
-    if cmd[0] == "exit":
-        savefile.flush()
-        savefile.close()
-        exit()
-    if cmd[0] == "save":
-        savefile.flush()
-        return
     print("INVALID COMMAND!")
 
 # SQS Setup
-
-sqs = boto3.resource('sqs', region_name="us-east-1", aws_secret_access_key="", aws_access_key_id="")
+f = open("keys.txt", "r")
+keys = f.read().split(",")
+sqs = boto3.resource('sqs', region_name="us-east-1", aws_secret_access_key=str(keys[0]), aws_access_key_id=str(keys[1]))
 queue = sqs.get_queue_by_name(QueueName = 'dispense-queue')
 
 # Dictionary setup from file
@@ -120,8 +113,13 @@ f.close()
 # Main Loop
 
 def main():
+    time.sleep(3)
+    
+    sensor_key = "940400599"
+    total_key = "1402521437"
+    valve_key = "636313445"
     while True:
-        
+
         # Checks for queue message
 
         for msg in queue.receive_messages(MessageAttributeNames=['Name', 'Amount', 'Unit']):
@@ -134,6 +132,7 @@ def main():
             name = attr["Name"]["StringValue"]
             print('-------------------QUEUE RECEIVE-------------------------')
             print("Body: "+msg.body+"\tName: "+name+"\tAmount: " + amt + "\tUnit: " + unit)
+            print('---------------------------------------------------------')
             msg.delete()
 
             # Passthrough mode implementation
@@ -164,12 +163,12 @@ def main():
                 if name != "none":
                     amt = name_dict[name][0]
                     unit = name_dict[name][1]
-                    print("Dispensing using preset \"" + name+"\" with "+amt+" "+unit)
+                    print("Dispensing using preset \"" + name+"\" with "+amt+" "+unit+".")
 
                 # Does not have a preset
                 
                 else:
-                    print("Dispensing using measurements")
+                    print("Dispensing using measurements.")
 
                 # Unit conversion to milliliters
 
@@ -188,7 +187,16 @@ def main():
                     amt*=1000
                 unit = "milliliter"
 
-                dispense_amt = math.floor(float(amt)*2.25)
+                run(("set valve "+str(True)).split(" "))
+                required_pulses = math.floor(amt/2.25)
+                print("Pulses required: " + str(required_pulses))
+                elapsed_pulses = 0
+                while elapsed_pulses <= required_pulses:
+                    elapsed_pulses = state[total_key]['value']
+
+                print("Dispense complete! Pulses elapsed: " + str(elapsed_pulses))
+                run(("set valve "+str(False)).split(" "))
+                    
 
 submit_async(_init())
 main()
