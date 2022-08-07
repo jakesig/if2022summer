@@ -11,7 +11,7 @@
 
 Code for Invention Factory in Summer of 2022. This repository uses AWS SQS to implement an Alexa skill, including all server-side and client-side code,
 
-#### Directory Information **`client/`**
+#### Directory Information **`ask-skill/`**
 
 **`.ask/`**: Contains the Amazon Skill Kit library for VSCode    
 **`lambda/`**: Contains lambda function for skill deployment    
