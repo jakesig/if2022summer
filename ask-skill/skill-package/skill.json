@@ -1,0 +1,61 @@
+{
+  "manifest": {
+    "publishingInformation": {
+      "locales": {
+        "en-US": {
+          "summary": "Alexa-enabled interface for our smart faucet attachment",
+          "examplePhrases": [
+            "Alexa, dispense five cups of water",
+            "",
+            ""
+          ],
+          "keywords": [],
+          "name": "Sink Mate",
+          "description": "Use this skill to use your Alexa-enabled faucet attachment and give commands to dispense specific amounts of water.",
+          "smallIconUri": "file://assets/images/en-US_smallIconUri.png",
+          "largeIconUri": "file://assets/images/en-US_largeIconUri.png"
+        }
+      },
+      "automaticDistribution": {
+        "isActive": false
+      },
+      "isAvailableWorldwide": true,
+      "category": "SMART_HOME",
+      "distributionCountries": []
+    },
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "uri": "arn:aws:lambda:us-east-1:491475335453:function:b45c4cfe-10d9-44f7-9d9a-34d7602b6fbb:Release_0"
+        },
+        "interfaces": [],
+        "regions": {
+          "EU": {
+            "endpoint": {
+              "uri": "arn:aws:lambda:eu-west-1:491475335453:function:b45c4cfe-10d9-44f7-9d9a-34d7602b6fbb:Release_0"
+            }
+          },
+          "NA": {
+            "endpoint": {
+              "uri": "arn:aws:lambda:us-east-1:491475335453:function:b45c4cfe-10d9-44f7-9d9a-34d7602b6fbb:Release_0"
+            }
+          },
+          "FE": {
+            "endpoint": {
+              "uri": "arn:aws:lambda:us-west-2:491475335453:function:b45c4cfe-10d9-44f7-9d9a-34d7602b6fbb:Release_0"
+            }
+          }
+        }
+      }
+    },
+    "manifestVersion": "1.0",
+    "privacyAndCompliance": {
+      "locales": {
+        "en-US": {}
+      },
+      "shoppingKit": {
+        "isShoppingActionsEnabled": false
+      }
+    }
+  }
+}

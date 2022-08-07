@@ -1,0 +1,242 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "sink mate",
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": [
+            "Cancel"
+          ]
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": [
+            "Im not sure",
+            "Help"
+          ]
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": [
+            "End",
+            "Stop"
+          ]
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": [
+            "Main Menu",
+            "Home"
+          ]
+        },
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
+        },
+        {
+          "name": "DispenseIntent",
+          "slots": [
+            {
+              "name": "amount",
+              "type": "AMAZON.NUMBER",
+              "multipleValues": {
+                "enabled": true
+              }
+            },
+            {
+              "name": "unit",
+              "type": "measurement",
+              "multipleValues": {
+                "enabled": true
+              }
+            },
+            {
+              "name": "name",
+              "type": "pots_and_pans",
+              "multipleValues": {
+                "enabled": true
+              }
+            }
+          ],
+          "samples": [
+            "fill up {name}",
+            "fill up {amount} {unit} ",
+            "dispense {amount} {unit} ",
+            "fill up {amount} {unit} of water",
+            "give me {amount} {unit} of water",
+            "dispense {amount} {unit}  of water"
+          ]
+        },
+        {
+          "name": "OpenIntent",
+          "slots": [],
+          "samples": [
+            "enable passthrough",
+            "turn on passthrough",
+            "turn on passthrough mode",
+            "enable passthrough mode"
+          ]
+        },
+        {
+          "name": "CloseIntent",
+          "slots": [],
+          "samples": [
+            "disable passthrough",
+            "turn off passthrough",
+            "turn off passthrough mode",
+            "disable passthrough mode"
+          ]
+        },
+        {
+          "name": "PresetIntent",
+          "slots": [
+            {
+              "name": "name",
+              "type": "pots_and_pans",
+              "multipleValues": {
+                "enabled": true
+              }
+            },
+            {
+              "name": "amount",
+              "type": "AMAZON.NUMBER",
+              "multipleValues": {
+                "enabled": true
+              }
+            },
+            {
+              "name": "unit",
+              "type": "measurement",
+              "multipleValues": {
+                "enabled": true
+              }
+            }
+          ],
+          "samples": [
+            "set {name} to {amount} {unit}"
+          ]
+        }
+      ],
+      "types": [
+        {
+          "values": [
+            {
+              "name": {
+                "value": "gallon",
+                "synonyms": [
+                  "gallons"
+                ]
+              }
+            },
+            {
+              "name": {
+                "value": "quart",
+                "synonyms": [
+                  "quarts"
+                ]
+              }
+            },
+            {
+              "name": {
+                "value": "pint",
+                "synonyms": [
+                  "pints"
+                ]
+              }
+            },
+            {
+              "name": {
+                "value": "milliliter",
+                "synonyms": [
+                  "milliliters"
+                ]
+              }
+            },
+            {
+              "name": {
+                "value": "fluid ounce",
+                "synonyms": [
+                  "fluid ounces"
+                ]
+              }
+            },
+            {
+              "name": {
+                "value": "cup",
+                "synonyms": [
+                  "cups"
+                ]
+              }
+            },
+            {
+              "name": {
+                "value": "liter",
+                "synonyms": [
+                  "liters"
+                ]
+              }
+            }
+          ],
+          "name": "measurement"
+        },
+        {
+          "values": [
+            {
+              "name": {
+                "value": "pot 10"
+              }
+            },
+            {
+              "name": {
+                "value": "pot 9"
+              }
+            },
+            {
+              "name": {
+                "value": "pot 8"
+              }
+            },
+            {
+              "name": {
+                "value": "pot 7"
+              }
+            },
+            {
+              "name": {
+                "value": "pot 6"
+              }
+            },
+            {
+              "name": {
+                "value": "pot 5"
+              }
+            },
+            {
+              "name": {
+                "value": "pot 4"
+              }
+            },
+            {
+              "name": {
+                "value": "pot 3"
+              }
+            },
+            {
+              "name": {
+                "value": "pot 2"
+              }
+            },
+            {
+              "name": {
+                "value": "pot 1"
+              }
+            }
+          ],
+          "name": "pots_and_pans"
+        }
+      ]
+    }
+  },
+  "version": "27"
+}
