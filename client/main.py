@@ -185,6 +185,8 @@ def main():
                     amt*=240
                 elif unit == "liter":
                     amt*=1000
+                elif unit == "tablespoon":
+                    amt*=14.787
                 unit = "milliliter"
 
                 run(("set valve "+str(True)).split(" "))

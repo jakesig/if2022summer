@@ -123,6 +123,14 @@
           "values": [
             {
               "name": {
+                "value": "tablespoon",
+                "synonyms": [
+                  "tablespoons"
+                ]
+              }
+            },
+            {
+              "name": {
                 "value": "gallon",
                 "synonyms": [
                   "gallons"
