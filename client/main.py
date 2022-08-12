@@ -42,14 +42,14 @@ async def _init():
     print("Logging in...")
 
     # Establish connection
-    await api.connect(login=True)
+    # await api.connect(login=True)
     api_info['connected'] = True
 
     # Get API version of the device's firmware
     # print(api.api_version)
 
     # Show device details
-    device_info = await api.device_info()
+    # device_info = await api.device_info()
     print("Board connected!")
 
     # List all entities of the device
@@ -92,7 +92,7 @@ def run(cmd):
     print("INVALID COMMAND!")
 
 # SQS Setup
-f = open("keys.txt", "r")
+f = open("client/keys.txt", "r")
 keys = f.read().split(",")
 sqs = boto3.resource('sqs', region_name="us-east-1", aws_secret_access_key=str(keys[0]), aws_access_key_id=str(keys[1]))
 queue = sqs.get_queue_by_name(QueueName = 'dispense-queue')
@@ -100,7 +100,7 @@ queue = sqs.get_queue_by_name(QueueName = 'dispense-queue')
 # Dictionary setup from file
 
 print("Reading file...")
-f = open("presets.txt", "r")
+f = open("client/presets.txt", "r")
 entries = f.read().split(";")
 entries.pop(len(entries)-1)
 name_dict = dict()
@@ -118,6 +118,8 @@ def main():
     sensor_key = "940400599"
     total_key = "1402521437"
     valve_key = "636313445"
+    water_key = "tbd"
+
     while True:
 
         # Checks for queue message
@@ -144,6 +146,20 @@ def main():
                 run(("set valve "+str(False)).split(" "))
                 continue
 
+            # Timer mode implementation
+            
+            elif msg.body == "Timer":
+                run(("set valve "+str(True)).split(" "))
+                amt = int(amt)
+                if unit == "minute":
+                    amt *= 60
+                elif unit == "hour":
+                    amt *= 3600
+                print("Valve open for " + str(amt) + " seconds")
+                time.sleep(amt)
+                run(("set valve "+str(False)).split(" "))
+                continue
+
             # Preset implementation
 
             elif msg.body == "Preset":
@@ -153,6 +169,14 @@ def main():
                 print("Updated presets.")
                 f.close()
                 continue
+
+            # Fill-up mode implementation
+
+            elif msg.body == "Fill":
+                while state[water_key]['value'] != True:
+                    run(("set valve "+str(True)).split(" "))
+                print("Fill-up mode toggled. Valve opened.")
+                run(("set valve "+str(False)).split(" "))
             
             # Dispensing implementation
 
@@ -196,8 +220,18 @@ def main():
                 while elapsed_pulses <= required_pulses:
                     elapsed_pulses = state[total_key]['value']
 
+                    # If water is detected, break from the loop
+
+                    if state[water_key]['value'] == True:
+                        break
+
                 print("Dispense complete! Pulses elapsed: " + str(elapsed_pulses))
                 run(("set valve "+str(False)).split(" "))
+        
+        # If water is detected, turn off the valve
+
+        if state[water_key]['value'] == True:
+            run(("set valve "+str(False)).split(" "))
                     
 
 submit_async(_init())

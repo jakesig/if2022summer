@@ -133,6 +133,96 @@ class DispenseIntentHandler(AbstractRequestHandler):
                 .response
         )
 
+# Timer Intent - Triggers when user asks Sink Mate to leave the faucet open for a certain amount of time.
+
+class TimerIntentHandler(AbstractRequestHandler):
+
+    def can_handle(self, handler_input):
+        # type: (HandlerInput) -> bool
+        return ask_utils.is_intent_name("TimerIntent")(handler_input)
+
+    # Obtains unit and amount from designated slots, then dispenses water.
+
+    def handle(self, handler_input):
+        # type: (HandlerInput) -> Response
+        slots = handler_input.request_envelope.request.intent.slots
+        
+        # Obtain values from slots
+        
+        name = "none"
+        amount = str(slots["amount"].value)
+        if amount == "None":
+            amount = "0"
+        unit = str(slots["time"].value)
+        if unit == "None":
+            unit = "none"
+            
+        speak_output = "The faucet is on for " + amount + " " + unit + "."
+        amount = float(amount)
+        
+        # Downsize string if it's plural
+        
+        if unit.endswith("s"):
+            unit = unit[0:len(unit)-1]
+        
+        # Send message to SQS
+        
+        queue.send_message(MessageBody='Timer', MessageAttributes={
+            'Name': {
+                'StringValue': name,
+                'DataType': 'String'
+            },
+            'Amount': {
+                'StringValue': str(amount),
+                'DataType': 'Number'
+            },
+            'Unit': {
+                'StringValue': unit,
+                'DataType': 'String'
+            }
+        })
+        
+        # Speak output
+
+        return (
+            handler_input.response_builder
+                .speak(speak_output)
+                .response
+        )
+
+# Fill Intent - Triggers when user wants to use sink mate with the motion sensor.
+
+class FillIntentHandler(AbstractRequestHandler):
+    
+    def can_handle(self ,handler_input):
+        # type: (HandlerInput) -> bool
+        return ask_utils.is_intent_name("FillIntent")(handler_input)
+        
+    def handle(self, handler_input):
+        # type: (HandlerInput) -> Response
+        speak_output = "Enabling fillup mode. Start filling!"
+        
+        queue.send_message(MessageBody='Fill', MessageAttributes={
+            'Name': {
+                'StringValue': 'none',
+                'DataType': 'String'
+            },
+            'Amount': {
+                'StringValue': '0',
+                'DataType': 'Number'
+            },
+            'Unit': {
+                'StringValue': "none",
+                'DataType': 'String'
+            }
+        })
+        
+        return (
+            handler_input.response_builder
+                .speak(speak_output)
+                .response
+            )
+
 # Open Intent - Triggers when user wants to enable passthrough mode.
 
 class OpenIntentHandler(AbstractRequestHandler):
@@ -372,6 +462,8 @@ sb = SkillBuilder()
 
 sb.add_request_handler(LaunchRequestHandler())
 sb.add_request_handler(DispenseIntentHandler())
+sb.add_request_handler(TimerIntentHandler())
+sb.add_request_handler(FillIntentHandler())
 sb.add_request_handler(OpenIntentHandler())
 sb.add_request_handler(CloseIntentHandler())
 sb.add_request_handler(PresetIntentHandler())
