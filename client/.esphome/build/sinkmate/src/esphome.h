@@ -1,5 +1,6 @@
 #pragma once
 #include "esphome/core/macros.h"
+#include "esphome\components\adc\adc_sensor.h"
 #include "esphome\components\api\api_connection.h"
 #include "esphome\components\api\api_frame_helper.h"
 #include "esphome\components\api\api_noise_context.h"
@@ -39,6 +40,7 @@
 #include "esphome\components\socket\socket.h"
 #include "esphome\components\switch\automation.h"
 #include "esphome\components\switch\switch.h"
+#include "esphome\components\voltage_sampler\voltage_sampler.h"
 #include "esphome\components\web_server_base\web_server_base.h"
 #include "esphome\components\wifi\wifi_component.h"
 #include "esphome\core\application.h"

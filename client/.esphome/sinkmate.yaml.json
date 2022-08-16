@@ -10,6 +10,7 @@
   "build_path": ".esphome/build/sinkmate",
   "firmware_bin_path": ".esphome/build/sinkmate\\.pioenvs\\sinkmate\\firmware.bin",
   "loaded_integrations": [
+    "adc",
     "api",
     "async_tcp",
     "captive_portal",
@@ -26,6 +27,7 @@
     "sensor",
     "socket",
     "switch",
+    "voltage_sampler",
     "web_server_base",
     "wifi"
   ]

@@ -24,6 +24,8 @@ Automation<> *automation_2;
 pulse_meter::PulseMeterSensor *flow_sensor;
 esphome::esp8266::ESP8266GPIOPin *esphome_esp8266_esp8266gpiopin_3;
 sensor::Sensor *sensor_sensor;
+adc::ADCSensor *water_sensor;
+esphome::esp8266::ESP8266GPIOPin *esphome_esp8266_esp8266gpiopin_4;
 pulse_meter::SetTotalPulsesAction<> *pulse_meter_settotalpulsesaction_2;
 switch_::SwitchTurnOffTrigger *switch__switchturnofftrigger;
 Automation<> *automation;
@@ -295,6 +297,47 @@ void setup() {
   sensor_sensor->set_accuracy_decimals(1);
   sensor_sensor->set_force_update(false);
   flow_sensor->set_total_sensor(sensor_sensor);
+  // sensor.adc:
+  //   platform: adc
+  //   pin:
+  //     number: 17
+  //     mode:
+  //       analog: true
+  //       input: true
+  //       output: false
+  //       open_drain: false
+  //       pullup: false
+  //       pulldown: false
+  //     id: esphome_esp8266_esp8266gpiopin_4
+  //     inverted: false
+  //   name: WaterSensor
+  //   id: water_sensor
+  //   update_interval: 1s
+  //   disabled_by_default: false
+  //   force_update: false
+  //   unit_of_measurement: V
+  //   accuracy_decimals: 2
+  //   device_class: voltage
+  //   state_class: measurement
+  //   raw: false
+  water_sensor = new adc::ADCSensor();
+  water_sensor->set_update_interval(1000);
+  water_sensor->set_component_source("adc.sensor");
+  App.register_component(water_sensor);
+  App.register_sensor(water_sensor);
+  water_sensor->set_name("WaterSensor");
+  water_sensor->set_disabled_by_default(false);
+  water_sensor->set_device_class("voltage");
+  water_sensor->set_state_class(sensor::STATE_CLASS_MEASUREMENT);
+  water_sensor->set_unit_of_measurement("V");
+  water_sensor->set_accuracy_decimals(2);
+  water_sensor->set_force_update(false);
+  esphome_esp8266_esp8266gpiopin_4 = new esphome::esp8266::ESP8266GPIOPin();
+  esphome_esp8266_esp8266gpiopin_4->set_pin(17);
+  esphome_esp8266_esp8266gpiopin_4->set_inverted(false);
+  esphome_esp8266_esp8266gpiopin_4->set_flags(gpio::Flags::FLAG_INPUT);
+  water_sensor->set_pin(esphome_esp8266_esp8266gpiopin_4);
+  water_sensor->set_output_raw(false);
   // socket:
   //   implementation: lwip_tcp
   // network:

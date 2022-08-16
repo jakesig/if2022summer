@@ -53,3 +53,8 @@ sensor:
     total:
       name: "Total"
       accuracy_decimals: 1
+  - platform: adc
+    pin: A0
+    name: "WaterSensor"
+    id: water_sensor
+    update_interval: 1s

@@ -42,14 +42,14 @@ async def _init():
     print("Logging in...")
 
     # Establish connection
-    # await api.connect(login=True)
+    await api.connect(login=True)
     api_info['connected'] = True
 
     # Get API version of the device's firmware
     # print(api.api_version)
 
     # Show device details
-    # device_info = await api.device_info()
+    device_info = await api.device_info()
     print("Board connected!")
 
     # List all entities of the device
@@ -118,7 +118,8 @@ def main():
     sensor_key = "940400599"
     total_key = "1402521437"
     valve_key = "636313445"
-    water_key = "tbd"
+    water_key = "336192040"
+    sensor_count = 0
 
     while True:
 
@@ -173,7 +174,7 @@ def main():
             # Fill-up mode implementation
 
             elif msg.body == "Fill":
-                while state[water_key]['value'] != True:
+                while state[water_key]['value'] == 1.0:
                     run(("set valve "+str(True)).split(" "))
                 print("Fill-up mode toggled. Valve opened.")
                 run(("set valve "+str(False)).split(" "))
@@ -222,7 +223,7 @@ def main():
 
                     # If water is detected, break from the loop
 
-                    if state[water_key]['value'] == True:
+                    if state[water_key]['value'] < 1.0:
                         break
 
                 print("Dispense complete! Pulses elapsed: " + str(elapsed_pulses))
@@ -230,8 +231,12 @@ def main():
         
         # If water is detected, turn off the valve
 
-        if state[water_key]['value'] == True:
-            run(("set valve "+str(False)).split(" "))
+        if state[water_key]['value'] < 1.0:
+            sensor_count += 1
+            if sensor_count == 2:
+                sensor_count = 0
+                print("Water detected! Shutting valve.")
+                run(("set valve "+str(False)).split(" "))
                     
 
 submit_async(_init())

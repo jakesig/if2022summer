@@ -1,8 +1,8 @@
 {
   "env_name": "sinkmate",
   "libsource_dirs": [
-    "C:\\Users\\jsigm\\OneDrive\\Documents\\Arduino\\if2022summer\\.esphome\\build\\sinkmate\\lib",
-    "C:\\Users\\jsigm\\OneDrive\\Documents\\Arduino\\if2022summer\\.esphome\\build\\sinkmate\\.piolibdeps\\sinkmate",
+    "C:\\Users\\jsigm\\OneDrive\\Documents\\Arduino\\if2022summer\\client\\.esphome\\build\\sinkmate\\lib",
+    "C:\\Users\\jsigm\\OneDrive\\Documents\\Arduino\\if2022summer\\client\\.esphome\\build\\sinkmate\\.piolibdeps\\sinkmate",
     "C:\\Users\\jsigm\\.platformio\\lib",
     "C:\\Users\\jsigm\\.platformio\\packages\\framework-arduinoespressif8266\\libraries"
   ],
@@ -35,15 +35,15 @@
   ],
   "includes": {
     "build": [
-      "C:\\Users\\jsigm\\OneDrive\\Documents\\Arduino\\if2022summer\\.esphome\\build\\sinkmate\\include",
-      "C:\\Users\\jsigm\\OneDrive\\Documents\\Arduino\\if2022summer\\.esphome\\build\\sinkmate\\src",
-      "C:\\Users\\jsigm\\OneDrive\\Documents\\Arduino\\if2022summer\\.esphome\\build\\sinkmate\\src",
+      "C:\\Users\\jsigm\\OneDrive\\Documents\\Arduino\\if2022summer\\client\\.esphome\\build\\sinkmate\\include",
+      "C:\\Users\\jsigm\\OneDrive\\Documents\\Arduino\\if2022summer\\client\\.esphome\\build\\sinkmate\\src",
+      "C:\\Users\\jsigm\\OneDrive\\Documents\\Arduino\\if2022summer\\client\\.esphome\\build\\sinkmate\\src",
       "C:\\Users\\jsigm\\.platformio\\packages\\framework-arduinoespressif8266\\libraries\\ESP8266mDNS\\src",
       "C:\\Users\\jsigm\\.platformio\\packages\\framework-arduinoespressif8266\\libraries\\DNSServer\\src",
-      "C:\\Users\\jsigm\\OneDrive\\Documents\\Arduino\\if2022summer\\.esphome\\build\\sinkmate\\.piolibdeps\\sinkmate\\ESPAsyncWebServer-esphome\\src",
+      "C:\\Users\\jsigm\\OneDrive\\Documents\\Arduino\\if2022summer\\client\\.esphome\\build\\sinkmate\\.piolibdeps\\sinkmate\\ESPAsyncWebServer-esphome\\src",
       "C:\\Users\\jsigm\\.platformio\\packages\\framework-arduinoespressif8266\\libraries\\ESP8266WiFi\\src",
       "C:\\Users\\jsigm\\.platformio\\packages\\framework-arduinoespressif8266\\libraries\\Hash\\src",
-      "C:\\Users\\jsigm\\OneDrive\\Documents\\Arduino\\if2022summer\\.esphome\\build\\sinkmate\\.piolibdeps\\sinkmate\\ESPAsyncTCP-esphome\\src",
+      "C:\\Users\\jsigm\\OneDrive\\Documents\\Arduino\\if2022summer\\client\\.esphome\\build\\sinkmate\\.piolibdeps\\sinkmate\\ESPAsyncTCP-esphome\\src",
       "C:\\Users\\jsigm\\.platformio\\packages\\framework-arduinoespressif8266\\tools\\sdk\\include",
       "C:\\Users\\jsigm\\.platformio\\packages\\framework-arduinoespressif8266\\cores\\esp8266",
       "C:\\Users\\jsigm\\.platformio\\packages\\toolchain-xtensa\\include",
@@ -51,13 +51,13 @@
       "C:\\Users\\jsigm\\.platformio\\packages\\framework-arduinoespressif8266\\variants\\nodemcu"
     ],
     "compatlib": [
-      "C:\\Users\\jsigm\\OneDrive\\Documents\\Arduino\\if2022summer\\.esphome\\build\\sinkmate\\.piolibdeps\\sinkmate\\ESPAsyncTCP-esphome\\src",
-      "C:\\Users\\jsigm\\OneDrive\\Documents\\Arduino\\if2022summer\\.esphome\\build\\sinkmate\\.piolibdeps\\sinkmate\\ESPAsyncTCP-esphome\\src",
-      "C:\\Users\\jsigm\\OneDrive\\Documents\\Arduino\\if2022summer\\.esphome\\build\\sinkmate\\.piolibdeps\\sinkmate\\ESPAsyncWebServer-esphome\\src",
-      "C:\\Users\\jsigm\\OneDrive\\Documents\\Arduino\\if2022summer\\.esphome\\build\\sinkmate\\.piolibdeps\\sinkmate\\ESPAsyncWebServer-esphome\\src",
+      "C:\\Users\\jsigm\\OneDrive\\Documents\\Arduino\\if2022summer\\client\\.esphome\\build\\sinkmate\\.piolibdeps\\sinkmate\\ESPAsyncTCP-esphome\\src",
+      "C:\\Users\\jsigm\\OneDrive\\Documents\\Arduino\\if2022summer\\client\\.esphome\\build\\sinkmate\\.piolibdeps\\sinkmate\\ESPAsyncTCP-esphome\\src",
+      "C:\\Users\\jsigm\\OneDrive\\Documents\\Arduino\\if2022summer\\client\\.esphome\\build\\sinkmate\\.piolibdeps\\sinkmate\\ESPAsyncWebServer-esphome\\src",
+      "C:\\Users\\jsigm\\OneDrive\\Documents\\Arduino\\if2022summer\\client\\.esphome\\build\\sinkmate\\.piolibdeps\\sinkmate\\ESPAsyncWebServer-esphome\\src",
       "C:\\Users\\jsigm\\.platformio\\packages\\framework-arduinoespressif8266\\libraries\\ESP8266WiFi\\src",
       "C:\\Users\\jsigm\\.platformio\\packages\\framework-arduinoespressif8266\\libraries\\Hash\\src",
-      "C:\\Users\\jsigm\\OneDrive\\Documents\\Arduino\\if2022summer\\.esphome\\build\\sinkmate\\.piolibdeps\\sinkmate\\ESPAsyncTCP-esphome\\src",
+      "C:\\Users\\jsigm\\OneDrive\\Documents\\Arduino\\if2022summer\\client\\.esphome\\build\\sinkmate\\.piolibdeps\\sinkmate\\ESPAsyncTCP-esphome\\src",
       "C:\\Users\\jsigm\\.platformio\\packages\\framework-arduinoespressif8266\\libraries\\DNSServer\\src",
       "C:\\Users\\jsigm\\.platformio\\packages\\framework-arduinoespressif8266\\libraries\\ESP8266WiFi\\src",
       "C:\\Users\\jsigm\\.platformio\\packages\\framework-arduinoespressif8266\\libraries\\ESP8266mDNS\\src",
@@ -106,7 +106,7 @@
   "cc_path": "C:\\Users\\jsigm\\.platformio\\packages\\toolchain-xtensa\\bin\\xtensa-lx106-elf-gcc.exe",
   "cxx_path": "C:\\Users\\jsigm\\.platformio\\packages\\toolchain-xtensa\\bin\\xtensa-lx106-elf-g++.exe",
   "gdb_path": "C:\\Users\\jsigm\\.platformio\\packages\\toolchain-xtensa\\bin\\xtensa-lx106-elf-gdb.exe",
-  "prog_path": "C:\\Users\\jsigm\\OneDrive\\Documents\\Arduino\\if2022summer\\.esphome\\build\\sinkmate\\.pioenvs\\sinkmate\\firmware.elf",
+  "prog_path": "C:\\Users\\jsigm\\OneDrive\\Documents\\Arduino\\if2022summer\\client\\.esphome\\build\\sinkmate\\.pioenvs\\sinkmate\\firmware.elf",
   "svd_path": null,
   "compiler_type": "gcc",
   "targets": [
