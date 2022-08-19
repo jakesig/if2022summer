@@ -15,7 +15,7 @@ ota:
   password: "sinkmate"
 
 wifi:
-  ssid: "iPhone"
+  ssid: "Starlink"
   password: "benjamin"
 
   # Enable fallback hotspot (captive portal) in case wifi connection fails

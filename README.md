@@ -9,7 +9,7 @@
 
 ### Description
 
-Code for Invention Factory in Summer of 2022. This repository uses AWS SQS to implement an Alexa skill, including all server-side and client-side code,
+Code for Invention Factory in Summer of 2022. This repository uses AWS SQS to implement an Alexa skill, including all server-side and client-side code.
 
 #### Directory Information **`ask-skill/`**
 
